@@ -3,6 +3,7 @@ const port = process.env.PORT || 5000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const passport = require("passport");
 
 const users = require("./routes/users");
 
@@ -12,7 +13,9 @@ mongoose
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => res.send("Welcome to the Coffee Shop"));
+app.use(passport.initialize());
+require("./config/passport")(passport);
+
 app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 app.use(express.urlencoded({ extended: false }));
