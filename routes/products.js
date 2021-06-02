@@ -17,4 +17,20 @@ router.post(
   productsController.add_product
 );
 
+router.get("/:id", productsController.show_product);
+
+router.put(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  isAdmin,
+  productsController.update_product
+);
+
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  isAdmin,
+  productsController.delete_product
+);
+
 module.exports = router;
