@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 
 const userRoutes = require("./routes/users");
+const productRoutes = require("./routes/products");
 
 const db = require("./config/keys").mongoURI;
 mongoose
@@ -25,3 +26,4 @@ require("./config/passport")(passport);
 app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
