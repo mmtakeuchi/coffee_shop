@@ -1,5 +1,5 @@
 /config/keys.js
-/config/key_dev.js
+/config/keys_dev.js
 /config/keys_prod.js
 /node_modules
 .DS_Store
