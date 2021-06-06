@@ -6,7 +6,7 @@ const keys = require("../config/keys");
 const User = require("../models/User");
 
 // GET USER
-module.exports.get_user = (req, res) => {
+module.exports.getUser = (req, res) => {
   res.json({
     id: req.user.id,
     name: req.user.name,
@@ -42,11 +42,15 @@ module.exports.register = async (req, res) => {
         newUser
           .save()
           .then((user) => {
-            const payload = { id: user.id, name: user.name };
+            const payload = {
+              id: user.id,
+              name: user.name,
+              isAdmin: user.isAdmin,
+            };
 
             jwt.sign(
               payload,
-              keys.jwtsecret,
+              keys.secretOrKey,
               { expiresIn: 3600 },
               (err, token) => {
                 res.json({
@@ -82,11 +86,11 @@ module.exports.login = async (req, res) => {
 
   bcrypt.compare(password, user.password).then((isMatch) => {
     if (isMatch) {
-      const payload = { id: user.id, name: user.name };
+      const payload = { id: user.id, name: user.name, isAdmin: user.isAdmin };
 
       jwt.sign(
         payload,
-        keys.jwtsecret,
+        keys.secretOrKey,
         // Tell the key to expire in one hour
         { expiresIn: 3600 },
         (err, token) => {

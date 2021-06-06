@@ -1,7 +1,7 @@
 const Cart = require("../models/Cart");
-const Item = require("../models/Item");
+const Product = require("../models/Product");
 
-module.exports.get_cart_items = async (req, res) => {
+module.exports.getCartItems = async (req, res) => {
   const userId = req.params.id;
   try {
     let cart = await Cart.findOne({ userId });
@@ -16,13 +16,13 @@ module.exports.get_cart_items = async (req, res) => {
   }
 };
 
-module.exports.add_cart_item = async (req, res) => {
+module.exports.addCartItem = async (req, res) => {
   const userId = req.params.id;
   const { productId, quantity } = req.body;
 
   try {
     let cart = await Cart.findOne({ userId });
-    let item = await Item.findOne({ _id: productId });
+    let item = await Product.findOne({ _id: productId });
     if (!item) {
       res.status(404).send("Item not found!");
     }
@@ -59,7 +59,7 @@ module.exports.add_cart_item = async (req, res) => {
   }
 };
 
-module.exports.delete_item = async (req, res) => {
+module.exports.deleteItem = async (req, res) => {
   const userId = req.params.userId;
   const productId = req.params.itemId;
   try {

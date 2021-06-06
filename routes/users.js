@@ -9,7 +9,7 @@ router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   isAdmin,
-  usersController.get_user
+  usersController.getUser
 );
 
 // REGISTER

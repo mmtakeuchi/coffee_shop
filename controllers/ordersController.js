@@ -2,7 +2,7 @@ const Order = require("../models/Order");
 const Cart = require("../models/Cart");
 const User = require("../models/User");
 const keys = require("../config/keys");
-const stripe = require("stripe")(keys.stripeKEY);
+const stripe = require("stripe")(keys.stripeKey);
 
 module.exports.getOrder = async (req, res) => {
   const order = await Order.findById(req.params.id);
