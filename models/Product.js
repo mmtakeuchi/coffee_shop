@@ -15,6 +15,10 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
+  flavor: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,

@@ -4,10 +4,10 @@
   "description": "coffe shop",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "server:debug": "nodemon --inspect app.js",
     "server": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "frontend-install": "npm install --prefix frontend",
     "frontend": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run frontend\""
