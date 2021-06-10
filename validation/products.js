@@ -7,14 +7,7 @@ module.exports = function validateProductInput(data) {
   data.title = validText(data.title) ? data.title : "";
   data.description = validText(data.description) ? data.description : "";
   data.category = validText(data.category) ? data.category : "";
-
-  if (!Validator.isNumeric(data.price)) {
-    errors.text = "Price must be a number";
-  }
-
-  if (!Validator.isNumeric(data.stock)) {
-    errors.text = "Stock must be a number";
-  }
+  data.flavor = validText(data.flavor) ? data.flavor : "";
 
   if (Validator.isEmpty(data.title)) {
     errors.text = "Title field is required";
@@ -30,6 +23,10 @@ module.exports = function validateProductInput(data) {
 
   if (Validator.isEmpty(data.category)) {
     errors.text = "Category field is required";
+  }
+
+  if (Validator.isEmpty(data.flavor)) {
+    errors.text = "Flavor field is required";
   }
 
   if (Validator.isEmpty(data.stock)) {

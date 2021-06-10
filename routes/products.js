@@ -8,29 +8,28 @@ router.get("/test", (req, res) =>
   res.json({ msg: "This is the products route" })
 );
 
-router.get("/", productsController.get_products);
+router.get("/", productsController.getProducts);
 
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
-  isAdmin,
-  productsController.add_product
+  productsController.addProduct
 );
 
-router.get("/:id", productsController.show_product);
+router.get("/:id", productsController.showProduct);
 
 router.put(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   isAdmin,
-  productsController.update_product
+  productsController.updateProduct
 );
 
 router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   isAdmin,
-  productsController.delete_product
+  productsController.deleteProduct
 );
 
 module.exports = router;

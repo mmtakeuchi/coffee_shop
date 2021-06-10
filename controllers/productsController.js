@@ -1,31 +1,38 @@
+const { uploadImage } = require("../frontend/src/actions/imageActions");
 const Product = require("../models/Product");
 const validateProductInput = require("../validation/products");
+const { cloudinary } = require("../cloudinary/index");
 
-module.exports.get_products = (req, res) => {
+module.exports.getProducts = (req, res) => {
   Product.find()
     .sort({ date: -1 })
     .then((products) => res.json(products));
 };
 
-module.exports.add_product = async (req, res) => {
-  const { errors, isValid } = validateProductInput(req.body);
+module.exports.addProduct = async (req, res) => {
+  console.log(req.body);
+  const { resources } = await cloudinary.search
+    .expression("folder:coffeeMERN")
+    .sort_by("public_id", "desc")
+    .max_results(30)
+    .execute();
 
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+  const publicIds = resources.map((file) => file.public_id);
+  console.log(publicIds);
 
   const product = new Product(req.body);
+  product.images = publicIds[0];
+  console.log(product);
+
   const newProduct = await product.save();
 
   if (newProduct) {
-    return res
-      .status(201)
-      .send({ message: "New Product Created", data: newProduct });
+    return res.json(newProduct);
   }
   return res.status(500).send({ message: " Error in Creating Product." });
 };
 
-module.exports.show_product = async (req, res) => {
+module.exports.showProduct = async (req, res) => {
   const product = await Product.findOne({ _id: req.params.id });
 
   if (product) {
@@ -35,20 +42,21 @@ module.exports.show_product = async (req, res) => {
   }
 };
 
-module.exports.update_product = async (req, res) => {
+module.exports.updateProduct = async (req, res) => {
   console.log(req.body);
+  console.log(req.files);
   const product = await Product.findByIdAndUpdate(req.params.id, req.body);
-
   const updatedProduct = await product.save();
+  console.log(product);
 
   if (updatedProduct) {
-    res.status(200).send({ message: "Product Updated", data: updatedProduct });
+    res.json(updatedProduct);
   } else {
     res.status(500).send({ message: " Error in Updating Product." });
   }
 };
 
-module.exports.delete_product = async (req, res) => {
+module.exports.deleteProduct = async (req, res) => {
   const deletedProduct = await Product.findById(req.params.id);
 
   if (deletedProduct) {
